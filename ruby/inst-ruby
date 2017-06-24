@@ -1,3 +1,41 @@
+BUILD_DEPS=".build-deps"
+
+function add_apks(){
+	apk add --virtual $BUILD_DEPS \
+			autoconf \
+			bison \
+			bzip2 \
+			bzip2-dev \
+			ca-certificates \
+			coreutils \
+			dpkg-dev dpkg \
+			gcc \
+			gdbm-dev \
+			glib-dev \
+			libc-dev \
+			libffi-dev \
+			libxml2-dev \
+			libxslt-dev \
+			linux-headers \
+			make \
+			ncurses-dev \
+			libressl \
+			libressl-dev \
+			procps \
+			readline-dev \
+			ruby \
+			tar \
+			yaml-dev \
+			zlib-dev \
+			xz 
+}
+
+function clean(){
+    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/misc/*
+    > ~/.ash_history
+}
+
 set -xe
 RUBY_MAJOR=2.4
 RUBY_VERSION=2.4.1
@@ -11,7 +49,7 @@ mkdir -p /usr/local/etc
 		echo 'update: --no-document'; \
 } > /usr/local/etc/gemrc
 
-inst-build-deps
+add_apks
 
 if [ ! -d "/usr/src/ruby" ]; then
 	wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" 
@@ -67,5 +105,6 @@ export PATH=$BUNDLE_BIN:$PATH
 mkdir -p "$GEM_HOME" "$BUNDLE_BIN" 
 chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
 
-inst-build-deps rm
-dev-clean
+apk del $BUILD_DEPS
+
+clean
