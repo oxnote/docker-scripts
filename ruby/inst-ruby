@@ -31,6 +31,7 @@ function add_apks(){
 }
 
 function clean(){
+    apk del curl
     rm -rf /var/cache/apk/*
     rm -rf /var/cache/misc/*
     > ~/.ash_history
