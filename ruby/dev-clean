@@ -1,4 +1,0 @@
-#apk update demove
-rm -rf /var/cache/apk/*
-rm -rf /var/cache/misc/*
-> ~/.ash_history
